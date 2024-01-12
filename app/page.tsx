@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Snippet } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -62,6 +63,9 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="fixed bottom-0 left-0 flex flex-col items-center justify-center w-full bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
+        <p className="text-2xl font-bold mb-4 text-center text-blue-600">
+          Hyperlane Addresses
+        </p>
         <Tabs
           defaultValue="mainnet"
           className="w-[400px]"
@@ -126,7 +130,6 @@ export default function Home() {
             </Card>
           </TabsContent>
         </Tabs>
-
         <div className="mt-8">
           {chainType === "mainnet" &&
             mainnetData &&
@@ -140,8 +143,15 @@ export default function Home() {
                   {Object.entries(mainnetData[currentChain]).map(
                     ([key, value]) => (
                       <li key={key} className="mb-2">
-                        <strong className="font-bold">{key}:</strong>{" "}
-                        {value as string}
+                        <strong className="font-bold">{key}:</strong>
+                        <Snippet
+                          className="bg-white"
+                          size="sm"
+                          variant="solid"
+                          hideSymbol
+                        >
+                          {value as string}
+                        </Snippet>
                       </li>
                     )
                   )}
@@ -161,8 +171,15 @@ export default function Home() {
                   {Object.entries(testnetData[currentChain]).map(
                     ([key, value]) => (
                       <li key={key} className="mb-2">
-                        <strong className="font-bold">{key}:</strong>{" "}
-                        {value as string}
+                        <strong className="font-bold">{key}:</strong>
+                        <Snippet
+                          className="bg-white"
+                          size="sm"
+                          variant="solid"
+                          hideSymbol
+                        >
+                          {value as string}
+                        </Snippet>
                       </li>
                     )
                   )}
