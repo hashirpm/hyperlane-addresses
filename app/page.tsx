@@ -62,13 +62,13 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="fixed bottom-0 left-0 flex flex-col items-center justify-center w-full bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
+      <div className="bottom-0 left-0 flex flex-col items-center justify-center w-full bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
         <p className="text-2xl font-bold mb-4 text-center text-blue-600">
           Hyperlane Addresses
         </p>
         <Tabs
           defaultValue="mainnet"
-          className="w-[400px]"
+          className="w-[350px] ml"
           onValueChange={(e) => setChainType(e)}
         >
           <TabsList className="grid w-full grid-cols-2">
@@ -135,7 +135,7 @@ export default function Home() {
             mainnetData &&
             currentChain &&
             mainnetData[currentChain] && (
-              <div>
+              <div className="ml-2 mr-2">
                 <p className="text-lg font-bold mb-2">
                   Selected Chain: {currentChain}
                 </p>
@@ -163,7 +163,7 @@ export default function Home() {
             testnetData &&
             currentChain &&
             testnetData[currentChain] && (
-              <div>
+              <div className="ml-2 mr-2">
                 <p className="text-lg font-bold mb-2">
                   Selected Chain: {currentChain}
                 </p>
