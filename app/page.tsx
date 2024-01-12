@@ -135,27 +135,22 @@ export default function Home() {
             mainnetData &&
             currentChain &&
             mainnetData[currentChain] && (
-              <div className="ml-2 mr-2">
-                <p className="text-lg font-bold mb-2">
-                  Selected Chain: {currentChain}
-                </p>
-                <ul className="list-disc pl-6">
-                  {Object.entries(mainnetData[currentChain]).map(
-                    ([key, value]) => (
-                      <li key={key} className="mb-2">
-                        <strong className="font-bold">{key}:</strong>
-                        <Snippet
-                          className="bg-white"
-                          size="sm"
-                          variant="solid"
-                          hideSymbol
-                        >
-                          {value as string}
-                        </Snippet>
-                      </li>
-                    )
-                  )}
-                </ul>
+              <div className="list-disc pl-6">
+                {Object.entries(mainnetData[currentChain]).map(
+                  ([key, value]) => (
+                    <div key={key} className="mb-2">
+                      {/* <strong className="font-bold">{key}:</strong> */}
+                      <Snippet
+                        symbol={key}
+                        className="bg-white "
+                        size="sm"
+                        variant="solid"
+                      >
+                        {value as string}
+                      </Snippet>
+                    </div>
+                  )
+                )}
               </div>
             )}
 
@@ -163,27 +158,22 @@ export default function Home() {
             testnetData &&
             currentChain &&
             testnetData[currentChain] && (
-              <div className="ml-2 mr-2">
-                <p className="text-lg font-bold mb-2">
-                  Selected Chain: {currentChain}
-                </p>
-                <ul className="list-disc pl-6">
-                  {Object.entries(testnetData[currentChain]).map(
-                    ([key, value]) => (
-                      <li key={key} className="mb-2">
-                        <strong className="font-bold">{key}:</strong>
-                        <Snippet
-                          className="bg-white"
-                          size="sm"
-                          variant="solid"
-                          hideSymbol
-                        >
-                          {value as string}
-                        </Snippet>
-                      </li>
-                    )
-                  )}
-                </ul>
+              <div className="list-disc pl-6">
+                {Object.entries(testnetData[currentChain]).map(
+                  ([key, value]) => (
+                    <div key={key} className="mb-2">
+                      {/* <strong className="font-bold">{key}:</strong> */}
+                      <Snippet
+                        symbol={key}
+                        className="bg-white "
+                        size="sm"
+                        variant="solid"
+                      >
+                        {value as string}
+                      </Snippet>
+                    </div>
+                  )
+                )}
               </div>
             )}
         </div>
