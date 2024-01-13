@@ -79,14 +79,14 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-2">
       <div className="bottom-0 left-0 flex flex-col items-center justify-center w-full bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
         <p className="text-2xl font-bold mb-4 text-center text-blue-600">
           Hyperlane Addresses
         </p>
         <Tabs
           defaultValue="mainnet"
-          className="w-[350px] ml"
+          className="w-[300px] m-2"
           onValueChange={(e) => setChainType(e)}
         >
           <TabsList className="grid w-full grid-cols-2">
@@ -148,27 +148,77 @@ export default function Home() {
             </Card>
           </TabsContent>
         </Tabs>
-        <div className="mt-8">
-          {chainType === "mainnet" &&
-            mainnetAddresses &&
-            currentChain &&
-            mainnetAddresses[currentChain] && (
-              <div className="list-disc pl-6">
-                {mainnetChainMetadata && mainnetChainMetadata[currentChain] && (
-                  <Snippet
-                    symbol="Domain ID"
-                    className="bg-white "
-                    size="sm"
-                    variant="solid"
-                  >
-                    {mainnetChainMetadata[currentChain]["domainId"]}
-                  </Snippet>
-                )}
-                {Object.entries(mainnetAddresses[currentChain]).map(
+
+        {chainType === "mainnet" &&
+          mainnetAddresses &&
+          currentChain &&
+          mainnetAddresses[currentChain] && (
+            <Card className="w-full md:w-[350px] lg:w-[600px] m-2 overflow-auto">
+              {mainnetChainMetadata && mainnetChainMetadata[currentChain] && (
+                <Snippet
+                  symbol="Domain ID"
+                  className="bg-white "
+                  size="sm"
+                  variant="solid"
+                >
+                  {mainnetChainMetadata[currentChain]["domainId"]}
+                </Snippet>
+              )}
+              {Object.entries(mainnetAddresses[currentChain]).map(
+                ([key, value]) => (
+                  <div key={key} className="mb-2">
+                    {/* <strong className="font-bold">{key}:</strong> */}
+
+                    <Snippet
+                      symbol={key}
+                      className="bg-white"
+                      size="sm"
+                      variant="solid"
+                    >
+                      {value as string}
+                    </Snippet>
+                  </div>
+                )
+              )}
+            </Card>
+          )}
+
+        {chainType === "testnet" &&
+          testnetAddresses &&
+          currentChain &&
+          testnetAddresses[currentChain] && (
+         <Card className="w-full md:w-[350px] lg:w-[600px] m-2 overflow-auto">
+              {testnetChainMetadata && testnetChainMetadata[currentChain] && (
+                <Snippet
+                  symbol="Domain ID"
+                  className="bg-white "
+                  size="sm"
+                  variant="solid"
+                >
+                  {testnetChainMetadata[currentChain]["domainId"]}
+                </Snippet>
+              )}
+              {Object.entries(testnetAddresses[currentChain]).map(
+                ([key, value]) => (
+                  <div key={key} className="mb-2">
+                    {/* <strong className="font-bold">{key}:</strong> */}
+                    <Snippet
+                      symbol={key}
+                      className="bg-white "
+                      size="sm"
+                      variant="solid"
+                    >
+                      {value as string}
+                    </Snippet>
+                  </div>
+                )
+              )}
+              {testRecipients &&
+                testRecipients[currentChain] &&
+                Object.entries(testRecipients[currentChain]).map(
                   ([key, value]) => (
                     <div key={key} className="mb-2">
                       {/* <strong className="font-bold">{key}:</strong> */}
-
                       <Snippet
                         symbol={key}
                         className="bg-white "
@@ -180,59 +230,8 @@ export default function Home() {
                     </div>
                   )
                 )}
-              </div>
-            )}
-
-          {chainType === "testnet" &&
-            testnetAddresses &&
-            currentChain &&
-            testnetAddresses[currentChain] && (
-              <div className="list-disc pl-6">
-                {testnetChainMetadata && testnetChainMetadata[currentChain] && (
-                  <Snippet
-                    symbol="Domain ID"
-                    className="bg-white "
-                    size="sm"
-                    variant="solid"
-                  >
-                    {testnetChainMetadata[currentChain]["domainId"]}
-                  </Snippet>
-                )}
-                {Object.entries(testnetAddresses[currentChain]).map(
-                  ([key, value]) => (
-                    <div key={key} className="mb-2">
-                      {/* <strong className="font-bold">{key}:</strong> */}
-                      <Snippet
-                        symbol={key}
-                        className="bg-white "
-                        size="sm"
-                        variant="solid"
-                      >
-                        {value as string}
-                      </Snippet>
-                    </div>
-                  )
-                )}
-                {testRecipients &&
-                  testRecipients[currentChain] &&
-                  Object.entries(testRecipients[currentChain]).map(
-                    ([key, value]) => (
-                      <div key={key} className="mb-2">
-                        {/* <strong className="font-bold">{key}:</strong> */}
-                        <Snippet
-                          symbol={key}
-                          className="bg-white "
-                          size="sm"
-                          variant="solid"
-                        >
-                          {value as string}
-                        </Snippet>
-                      </div>
-                    )
-                  )}
-              </div>
-            )}
-        </div>
+            </Card>
+          )}
       </div>
     </main>
   );
