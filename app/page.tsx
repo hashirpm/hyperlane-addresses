@@ -24,32 +24,50 @@ import { Snippet } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [mainnetData, setMainnetData] = useState(null);
-  const [testnetData, setTestnetData] = useState(null);
+  const [mainnetAddresses, setMainnetAddresses] = useState(null);
+  const [mainnetChainMetadata, setMainnetChainMetadata] = useState(null);
+
+  const [testnetAddresses, setTestnetAddresses] = useState(null);
+  const [testRecipients, setTestRecipients] = useState(null);
+  const [testnetChainMetadata, setTestnetChainMetadata] = useState(null);
   const [chainType, setChainType] = useState("mainnet");
 
   const [currentChain, setCurrentChain] = useState<string>("");
 
   const fetchMainnetData = async () => {
     try {
-      const response = await fetch(
+      const mainnetAddressesResponse = await fetch(
         "https://raw.githubusercontent.com/hyperlane-xyz/v3-docs/main/static/addresses/mainnet.json"
       );
-
-      const data = await response.json();
-      setMainnetData(data);
+      const mainnetChainMetadataResponse = await fetch(
+        "https://raw.githubusercontent.com/hyperlane-xyz/v3-docs/main/static/chainmetadata/mainnet.json"
+      );
+      const mainnetAddressesData = await mainnetAddressesResponse.json();
+      const mainnetChainMetadaData = await mainnetChainMetadataResponse.json();
+      setMainnetAddresses(mainnetAddressesData);
+      setMainnetChainMetadata(mainnetChainMetadaData);
     } catch (error: any) {
       console.error("Error fetching data:", error);
     }
   };
   const fetchTestnetData = async () => {
     try {
-      const response = await fetch(
+      const testnetResponse = await fetch(
         "https://raw.githubusercontent.com/hyperlane-xyz/v3-docs/main/static/addresses/testnet.json"
       );
+      const testRecipientResponse = await fetch(
+        "https://raw.githubusercontent.com/hyperlane-xyz/v3-docs/main/static/addresses/testrecipients.json"
+      );
+      const testnetChainMetadataResponse = await fetch(
+        "https://raw.githubusercontent.com/hyperlane-xyz/v3-docs/main/static/chainmetadata/testnet.json"
+      );
+      const testnetData = await testnetResponse.json();
+      const testRecipientData = await testRecipientResponse.json();
+      const testnetChainMetadaData = await testnetChainMetadataResponse.json();
 
-      const data = await response.json();
-      setTestnetData(data);
+      setTestnetAddresses(testnetData);
+      setTestRecipients(testRecipientData);
+      setTestnetChainMetadata(testnetChainMetadaData);
     } catch (error: any) {
       console.error("Error fetching data:", error);
     }
@@ -90,8 +108,8 @@ export default function Home() {
                     <SelectGroup>
                       <SelectLabel>Chains</SelectLabel>
 
-                      {mainnetData &&
-                        Object.keys(mainnetData).map((chain) => (
+                      {mainnetAddresses &&
+                        Object.keys(mainnetAddresses).map((chain) => (
                           <SelectItem key={chain} value={chain}>
                             {chain}
                           </SelectItem>
@@ -117,8 +135,8 @@ export default function Home() {
                     <SelectGroup>
                       <SelectLabel>Chains</SelectLabel>
 
-                      {testnetData &&
-                        Object.keys(testnetData).map((chain) => (
+                      {testnetAddresses &&
+                        Object.keys(testnetAddresses).map((chain) => (
                           <SelectItem key={chain} value={chain}>
                             {chain}
                           </SelectItem>
@@ -132,14 +150,25 @@ export default function Home() {
         </Tabs>
         <div className="mt-8">
           {chainType === "mainnet" &&
-            mainnetData &&
+            mainnetAddresses &&
             currentChain &&
-            mainnetData[currentChain] && (
+            mainnetAddresses[currentChain] && (
               <div className="list-disc pl-6">
-                {Object.entries(mainnetData[currentChain]).map(
+                {mainnetChainMetadata && mainnetChainMetadata[currentChain] && (
+                  <Snippet
+                    symbol="Domain ID"
+                    className="bg-white "
+                    size="sm"
+                    variant="solid"
+                  >
+                    {mainnetChainMetadata[currentChain]["domainId"]}
+                  </Snippet>
+                )}
+                {Object.entries(mainnetAddresses[currentChain]).map(
                   ([key, value]) => (
                     <div key={key} className="mb-2">
                       {/* <strong className="font-bold">{key}:</strong> */}
+
                       <Snippet
                         symbol={key}
                         className="bg-white "
@@ -155,11 +184,21 @@ export default function Home() {
             )}
 
           {chainType === "testnet" &&
-            testnetData &&
+            testnetAddresses &&
             currentChain &&
-            testnetData[currentChain] && (
+            testnetAddresses[currentChain] && (
               <div className="list-disc pl-6">
-                {Object.entries(testnetData[currentChain]).map(
+                {testnetChainMetadata && testnetChainMetadata[currentChain] && (
+                  <Snippet
+                    symbol="Domain ID"
+                    className="bg-white "
+                    size="sm"
+                    variant="solid"
+                  >
+                    {testnetChainMetadata[currentChain]["domainId"]}
+                  </Snippet>
+                )}
+                {Object.entries(testnetAddresses[currentChain]).map(
                   ([key, value]) => (
                     <div key={key} className="mb-2">
                       {/* <strong className="font-bold">{key}:</strong> */}
@@ -174,6 +213,23 @@ export default function Home() {
                     </div>
                   )
                 )}
+                {testRecipients &&
+                  testRecipients[currentChain] &&
+                  Object.entries(testRecipients[currentChain]).map(
+                    ([key, value]) => (
+                      <div key={key} className="mb-2">
+                        {/* <strong className="font-bold">{key}:</strong> */}
+                        <Snippet
+                          symbol={key}
+                          className="bg-white "
+                          size="sm"
+                          variant="solid"
+                        >
+                          {value as string}
+                        </Snippet>
+                      </div>
+                    )
+                  )}
               </div>
             )}
         </div>
